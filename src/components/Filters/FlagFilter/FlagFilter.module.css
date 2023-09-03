@@ -1,0 +1,10 @@
+.filters {
+  display: flex;
+  flex-direction: column;
+  row-gap: 6px;
+}
+
+.filter label,
+.filter input {
+  cursor: pointer;
+}

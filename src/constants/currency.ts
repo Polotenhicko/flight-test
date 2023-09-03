@@ -1,0 +1,7 @@
+export const CURRENCY_SYMBOL_RUB = 'р';
+export const CURRENCY_SYMBOL_USD = '$';
+
+export const CURRENCY_SYMBOLS = {
+  RUB: CURRENCY_SYMBOL_RUB,
+  USD: CURRENCY_SYMBOL_USD,
+};
