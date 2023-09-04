@@ -1,0 +1,27 @@
+.flight {
+  display: flex;
+  flex-direction: column;
+  row-gap: 10px;
+}
+
+.banner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: rgb(42, 122, 193);
+  color: #fff;
+  padding: 5px 10px;
+}
+
+.priceWrap {
+  text-align: right;
+}
+
+.price {
+  font-size: 24px;
+}
+
+.legs {
+  display: flex;
+  flex-direction: column;
+}

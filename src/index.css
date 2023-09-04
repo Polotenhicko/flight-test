@@ -29,5 +29,6 @@ li {
 
 .App {
   display: flex;
-  justify-content: space-between;
+  column-gap: 60px;
+  padding: 40px;
 }
