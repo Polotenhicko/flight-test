@@ -1,4 +1,5 @@
 import { CURRENCY_SYMBOLS } from '../../constants/currency';
+import { Button } from '../../controls/Button';
 import { Flight2 } from '../../models/flights';
 import { FlightLeg } from '../FlightLeg';
 import styles from './FlightItem.module.css';
@@ -11,10 +12,16 @@ export function FlightItem({ flight }: IFlightItemProps) {
   const currency = flight.price.total.currencyCode as 'RUB' | 'USD';
   const currencySymbol = CURRENCY_SYMBOLS[currency];
 
+  console.log();
+
+  const airlineCode = flight.carrier.airlineCode.toUpperCase();
+  const bannerSrc = require(`./../../assets/logo/${airlineCode}.png`);
+  const bannerAlt = `BANNER: ${flight.carrier.caption}`;
+
   return (
     <div className={styles.flight}>
       <div className={styles.banner}>
-        <img src="" alt={`BANNER: ${flight.carrier.caption}`} />
+        <img src={bannerSrc} alt={bannerAlt} />
         <div className={styles.priceWrap}>
           <div className={styles.price}>
             {flight.price.total.amount} {currencySymbol}.
@@ -28,6 +35,8 @@ export function FlightItem({ flight }: IFlightItemProps) {
           <FlightLeg leg={leg} key={i} />
         ))}
       </div>
+
+      <Button>Выбрать</Button>
     </div>
   );
 }

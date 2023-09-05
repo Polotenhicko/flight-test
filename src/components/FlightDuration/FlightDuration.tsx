@@ -42,7 +42,7 @@ export function FlightDuration({ segments, durationMins }: IFlightDirationProps)
         </div>
       </div>
       <div className={styles.transferInfo}>
-        {segments[0].flightNumber + ' ' + durationMins}
+        {/* {segments[0].flightNumber + ' ' + durationMins} */}
         <hr />
         {hasTransfer && <div className={styles.transferCount}>{`${countTransfer} ${wordTransfer}`}</div>}
         <hr />

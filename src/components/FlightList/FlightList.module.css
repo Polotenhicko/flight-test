@@ -1,6 +1,6 @@
 .flightList {
   display: flex;
   flex-direction: column;
-  row-gap: 20px;
+  row-gap: 60px;
   flex: 1 1 auto;
 }
