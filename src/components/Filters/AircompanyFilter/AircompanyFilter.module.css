@@ -9,7 +9,12 @@
   column-gap: 5px;
 }
 
-.label {
+.filter label {
   display: flex;
   column-gap: 5px;
+}
+
+.filter input,
+.filter label {
+  cursor: pointer;
 }

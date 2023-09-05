@@ -3,4 +3,6 @@
   flex-direction: column;
   row-gap: 60px;
   flex: 1 1 auto;
+  max-width: 1200px;
+  width: 100%;
 }

@@ -2,9 +2,12 @@ import filterStyles from '../Filters.module.css';
 import styles from './SortFilter.module.css';
 import { SORT_FILTER_TEXT_BY_FILTER } from '../../../constants/filters';
 import { Filter } from './Filter';
+import filterFlightsService from '../../../services/filterFlights.service';
 
 export function SortFilter() {
-  const onChange = (e: any) => console.log(e.target.value);
+  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    filterFlightsService.changeFilter('sort', e.target.value);
+  };
 
   return (
     <div className={filterStyles.filter}>

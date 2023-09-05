@@ -12,8 +12,6 @@ export function FlightItem({ flight }: IFlightItemProps) {
   const currency = flight.price.total.currencyCode as 'RUB' | 'USD';
   const currencySymbol = CURRENCY_SYMBOLS[currency];
 
-  console.log();
-
   const airlineCode = flight.carrier.airlineCode.toUpperCase();
   const bannerSrc = require(`./../../assets/logo/${airlineCode}.png`);
   const bannerAlt = `BANNER: ${flight.carrier.caption}`;

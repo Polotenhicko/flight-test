@@ -32,3 +32,10 @@ li {
   column-gap: 60px;
   padding: 40px;
 }
+
+@media (max-width: 900px) {
+  .App {
+    flex-direction: column;
+    row-gap: 40px;
+  }
+}
