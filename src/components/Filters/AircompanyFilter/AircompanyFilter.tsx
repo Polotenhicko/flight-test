@@ -11,10 +11,16 @@ export function AircompanyFilter() {
   useObserverService(aircompanyStorageService);
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    filterFlightsService.changeFilter(FILTER_NAME_AIRCOMPANY, e.target.value);
+    filterFlightsService.changeFilter(FILTER_NAME_AIRCOMPANY, {
+      flag: e.target.value,
+      checked: e.target.checked,
+    });
   };
 
   const aircompanysStorage = aircompanyStorageService.airlinesStorage;
+  const hasAnyAircompanyFilter = aircompanysStorage ? !!Object.keys(aircompanysStorage).length : false;
+
+  if (!hasAnyAircompanyFilter) return null;
 
   return (
     <div className={filterStyles.filter}>

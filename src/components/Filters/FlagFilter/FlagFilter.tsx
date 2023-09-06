@@ -1,12 +1,15 @@
 import styles from './FlagFilter.module.css';
 import filterStyles from '../Filters.module.css';
-import { FLAG_FILTER_TEXT_BY_FILTER } from '../../../constants/filters';
+import { FILTER_NAME_FLAG, FLAG_FILTER_TEXT_BY_FILTER } from '../../../constants/filters';
 import { Filter } from './Filter';
 import filterFlightsService from '../../../services/filterFlights.service';
 
 export function FlagFilter() {
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    filterFlightsService.changeFilter('flags', e.target.value);
+    filterFlightsService.changeFilter(FILTER_NAME_FLAG, {
+      flag: e.target.value,
+      checked: e.target.checked,
+    });
   };
 
   return (

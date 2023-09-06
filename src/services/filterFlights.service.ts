@@ -11,12 +11,18 @@ import {
   FILTER_SORT_BY_TIME_ASC,
 } from '../constants/filters';
 import { Flight2 } from '../models/flights';
+import { isBoolean, isObject, isString } from '../utils/typeChecker';
 import flightService from './flights.service';
+
+interface IFlag {
+  flag: string;
+  checked: boolean;
+}
 
 export interface IFilters {
   [FILTER_NAME_SORT]: string | undefined;
-  [FILTER_NAME_AIRCOMPANY]: string[];
-  [FILTER_NAME_FLAG]: string[];
+  [FILTER_NAME_AIRCOMPANY]: IFlag[];
+  [FILTER_NAME_FLAG]: IFlag[];
   [FILTER_NAME_PRICE_MAX]: string;
   [FILTER_NAME_PRICE_MIN]: string;
 }
@@ -31,17 +37,21 @@ class FilterFlightsService {
     return sortedFlights;
   }
 
-  public changeFilter(filter: string, value: IFilters[keyof IFilters]): void {
+  public changeFilter(filter: string, value: string | IFlag): void {
     switch (filter) {
       case FILTER_NAME_FLAG:
       case FILTER_NAME_AIRCOMPANY:
-        if (typeof value !== 'string') return;
-        const indexFlag = this.filters[filter].indexOf(value);
+        if (!isObject(value)) return;
 
-        if (~indexFlag) {
-          this.filters[filter].splice(indexFlag, 1);
+        const val = value as IFlag;
+        if (!isString(val.flag) || !isBoolean(val.checked)) return;
+
+        const flag = this.filters[filter].find((filter) => filter.flag === val.flag);
+
+        if (!flag) {
+          this.filters[filter].push(val);
         } else {
-          this.filters[filter].push(value);
+          flag.checked = val.checked;
         }
         break;
       case FILTER_NAME_SORT:
@@ -56,7 +66,8 @@ class FilterFlightsService {
       default:
         return;
     }
-    flightService.updateFlightsWithFilter();
+
+    void flightService.updateFlightsWithFilter();
   }
 
   public filterBySort(flights: Flight2[]): Flight2[] {
@@ -86,11 +97,15 @@ class FilterFlightsService {
   }
 
   public filterByFlags(flights: Flight2[]): Flight2[] {
-    if (!this.filters[FILTER_NAME_FLAG].length) return flights;
+    const currentFilter = this.filters[FILTER_NAME_FLAG];
+    const everyFlagsNotChecked = currentFilter.every((flag) => !flag.checked);
+    if (everyFlagsNotChecked) return flights;
 
     return flights.filter((flight) => {
       const isSatisfiesFlag = this.filters[FILTER_NAME_FLAG].some((flag) => {
-        switch (flag) {
+        if (!flag.checked) return false;
+
+        switch (flag.flag) {
           case FILTER_FLAG_1_TRANSFER:
             return flight.legs.every((leg) => leg.segments.length === 2);
           case FILTER_FLAG_NO_TRANSFER:
@@ -117,10 +132,15 @@ class FilterFlightsService {
   }
 
   public filterByAircompany(flights: Flight2[]): Flight2[] {
-    if (!this.filters[FILTER_NAME_AIRCOMPANY].length) return flights;
+    const currentFilter = this.filters[FILTER_NAME_AIRCOMPANY];
+    const everyAircompanyNotChecked = currentFilter.every((flag) => !flag.checked);
+    if (everyAircompanyNotChecked) return flights;
 
     return flights.filter((flight) =>
-      this.filters[FILTER_NAME_AIRCOMPANY].some((airlineCode) => flight.carrier.airlineCode === airlineCode)
+      currentFilter.some((airlineFlag) => {
+        if (!airlineFlag.checked) return false;
+        return flight.carrier.airlineCode === airlineFlag.flag;
+      })
     );
   }
 

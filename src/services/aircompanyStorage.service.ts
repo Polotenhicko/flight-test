@@ -34,7 +34,7 @@ class AircompanyStorageService extends ObserverService {
       }
     }
 
-    this.notify();
+    void this.notify();
   }
 }
 
