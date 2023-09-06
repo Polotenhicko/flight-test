@@ -4,6 +4,7 @@ import { Button } from '../../controls/Button';
 import styles from './FlightList.module.css';
 import { useObserverService } from '../../hooks/useObserverService';
 import { FlightItem } from '../FlightItem';
+import { ErrorBoundary } from '../ErrorBoundary';
 
 export function FlightList() {
   useObserverService(flightService);
@@ -23,17 +24,21 @@ export function FlightList() {
     };
   }, []);
 
+  if (!flights.length) return <div className={styles.flightList}>По данным фильтрам, полёты отсутствуют</div>;
+
   return (
     <div className={styles.flightList}>
-      {flights.map((flight, i) => (
-        <FlightItem flight={flight} key={i} />
-      ))}
+      <ErrorBoundary>
+        {flights.map((flight, i) => (
+          <FlightItem flight={flight} key={i} />
+        ))}
 
-      {hasMoreFlights && (
-        <Button className={styles.moreFlightsBtn} onClick={handleClickMoreFlightsBtn}>
-          Показать ещё
-        </Button>
-      )}
+        {hasMoreFlights && (
+          <Button className={styles.moreFlightsBtn} onClick={handleClickMoreFlightsBtn}>
+            Показать ещё
+          </Button>
+        )}
+      </ErrorBoundary>
     </div>
   );
 }
