@@ -34,7 +34,7 @@ class FlightService extends ObserverService {
     const flights = this.allFlights;
 
     const sortedFlights = filterFlightsService.filterFlights(flights);
-    const slicedFlights = sortedFlights.slice(0, this.offset + this.limit);
+    const slicedFlights = sortedFlights.slice(0, this.offset);
 
     void this.checkHasMoreFlights(sortedFlights, slicedFlights);
     void aircompanyStorageService.buildAirlinesStorage(slicedFlights);
